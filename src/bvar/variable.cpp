@@ -196,7 +196,7 @@ bool Variable::hide() {
     if (entry) {
         CHECK_EQ(1UL, m.erase(_name));
     } else {
-        CHECK(false) << "`" << "this " << this << _name << "' must exist";
+        CHECK(false) << "`" << "this " << this  << "; get_var_maps " << get_var_maps() << _name << "' must exist";
     }
     _name.clear();
     return true;
