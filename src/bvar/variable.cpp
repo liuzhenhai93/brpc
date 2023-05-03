@@ -99,7 +99,7 @@ static void init_var_maps() {
     // It's probably slow to initialize all sub maps, but rpc often expose 
     // variables before user. So this should not be an issue to users.
     s_var_maps = new VarMapWithLock[SUB_MAP_COUNT];
-    std::cout << "init init_var_maps " << s_var_maps << "\n";
+    std::cout << "init init_var_maps " << "s_var_maps[" << &s_var_maps <<"]="<< s_var_maps << "\n";
 }
 
 inline size_t sub_map_index(const std::string& str) {
