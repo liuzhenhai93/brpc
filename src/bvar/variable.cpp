@@ -158,7 +158,7 @@ int Variable::expose_impl(const butil::StringPiece& prefix,
     to_underscored_name(&_name, name);
     
     VarMapWithLock& m = get_var_map(_name);
-    std::cout << "expose name_ " << _name  << "; VarMapWithLock "<< &m << "; get_var_maps " << get_var_maps() << "\n";
+    std::cout << "expose name_ " << _name << ";this " << this <<"; VarMapWithLock "<< &m << "; get_var_maps " << get_var_maps() << "\n";
     {
         BAIDU_SCOPED_LOCK(m.mutex);
         VarEntry* entry = m.seek(_name);
@@ -190,13 +190,13 @@ bool Variable::hide() {
         return false;
     }
     VarMapWithLock& m = get_var_map(_name);
-    std::cout << "hide name_ " << _name  << "; VarMapWithLock "<< &m << "; get_var_maps " << get_var_maps() << "\n";
+    std::cout << "hide name_ " << _name  << ";this " << this <<"; VarMapWithLock "<< &m << "; get_var_maps " << get_var_maps() << "\n";
     BAIDU_SCOPED_LOCK(m.mutex);
     VarEntry* entry = m.seek(_name);
     if (entry) {
         CHECK_EQ(1UL, m.erase(_name));
     } else {
-        CHECK(false) << "`" << _name << "' must exist";
+        CHECK(false) << "`" << "this " << this << _name << "' must exist";
     }
     _name.clear();
     return true;
