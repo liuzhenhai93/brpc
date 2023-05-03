@@ -21,6 +21,7 @@
 #include <set>                                  // std::set
 #include <fstream>                              // std::ifstream
 #include <sstream>                              // std::ostringstream
+#include <iostream>
 #include <gflags/gflags.h>
 #include "butil/macros.h"                        // BAIDU_CASSERT
 #include "butil/containers/flat_map.h"           // butil::FlatMap
@@ -98,6 +99,7 @@ static void init_var_maps() {
     // It's probably slow to initialize all sub maps, but rpc often expose 
     // variables before user. So this should not be an issue to users.
     s_var_maps = new VarMapWithLock[SUB_MAP_COUNT];
+    std::cout << "init init_var_maps " << s_var_maps << "\n";
 }
 
 inline size_t sub_map_index(const std::string& str) {
@@ -156,6 +158,7 @@ int Variable::expose_impl(const butil::StringPiece& prefix,
     to_underscored_name(&_name, name);
     
     VarMapWithLock& m = get_var_map(_name);
+    std::cout << "expose name_ " << _name  << "; VarMapWithLock "<< &m << "; get_var_maps " << get_var_maps() << "\n";
     {
         BAIDU_SCOPED_LOCK(m.mutex);
         VarEntry* entry = m.seek(_name);
@@ -187,6 +190,7 @@ bool Variable::hide() {
         return false;
     }
     VarMapWithLock& m = get_var_map(_name);
+    std::cout << "hide name_ " << _name  << "; VarMapWithLock "<< &m << "; get_var_maps " << get_var_maps() << "\n";
     BAIDU_SCOPED_LOCK(m.mutex);
     VarEntry* entry = m.seek(_name);
     if (entry) {
